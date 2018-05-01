@@ -22,7 +22,7 @@ bot.on('ready', () => {
     console.log("le bot a démarrer !");
 });
 
-bot.login('NDib7JBRV7b0');
+bot.login('process.env.TOKEN');
 
 bot.on("guildMemberAdd", member => {
     let role = member.guild.roles.find("name", "Joueur");
