@@ -15,7 +15,7 @@ var bot = new Discord.Client();
 var prefix = (",");
 var randnum = 0;
 
-var storynumber = db.set('histoires').map('story_value').value();
+var storynumber = db.set('histoires').map('story_value').value();  //avatar
 
 bot.on('ready', () => {
     bot.user.setPresence({ game: { name: ',help | En dévloppement', type: 3}});
@@ -72,27 +72,14 @@ bot.on('message', message => {
 
 
 
-    if (message.content === ",invite"){
-        message.reply("Lien d'invitation pour faire rejoindre le bot: https://discordapp.com/oauth2/authorize?client_id=414144091845165087&scope=bot&permissions=2146958591");
-     console.log('invite bot');
 
-    }
-
-
-
-
-
-    if (message.content === ",i"){
-        message.reply("Lien d'invitation pour faire rejoindre le bot: https://discordapp.com/oauth2/authorize?client_id=414144091845165087&scope=bot&permissions=2146958591");
-     console.log('invite bot');
-
-    }
 
     if (message.content === ",isdb"){
         message.reply("Voici le discord du bot: https://discord.gg/dnfEZvN");
      console.log('invite serveur ArliCraft');
 
     }
+
 
     if (message.content.startsWith(prefix + "botinfo")) {
         message.channel.send("", {
@@ -117,7 +104,7 @@ bot.on('message', message => {
         inline: true
                    }],
                 thumbnail: {
-                    url: message.author.iconURL //l'avatar du bot
+                    url: message.author.iconURL //l'avatar du bot //avatar
                 },
                 timestamp: new Date(), //La date d'aujourd'hui
                 footer: {
@@ -161,7 +148,7 @@ bot.on('message', message => {
                 },
                 timestamp: new Date(), //La date d'aujourd'hui
                 footer: {
-                    text: 'serveur support du bot ',
+                    text: 'serveur support du bot ',   //avatar
                 }
             }
         });
@@ -239,7 +226,7 @@ bot.on('message', message => {
             message.reply("L'utilisateur est imposible a trouvé !");
         }else{
             if(!message.guild.member(memberban).bannable){
-                message.reply("Je n'ai pas la permission de le ban !")
+                message.reply("Je n'ai pas la permission de le ban !") //.catch()
             }else{
                 message.guild.member(memberban).ban().then((member) => {
                 message.channel.send(`${member.displayName} a été ban avec succès !`);
@@ -248,6 +235,7 @@ bot.on('message', message => {
         })
     }
 }}
+
 
        
 
@@ -443,6 +431,107 @@ bot.on('message', message => {
             .setColor('#AEEE00')
         message.channel.send({embed: xp_embed});
     }
+
+
+
+
+
+    const fs = require("fs");
+
+var msg = message;
+
+
+
+let afk = JSON.parse(fs.readFileSync("./afks.json", "utf8"));
+
+if (message.content.startsWith(prefix + "remafk")){
+
+if (afk[msg.author.id]) {
+
+delete afk[msg.author.id];
+
+if (msg.member.nickname === null) {
+
+msg.channel.send(" re, j'ai enlever votre afk ^^");
+
+}else{
+
+msg.channel.send(" re, j'ai enlever votre afk ^^");
+
+}
+
+fs.writeFile("./afks.json", JSON.stringify(afk), (err) => { if (err) console.error(err);});
+
+}else{
+
+msg.channel.send("Erreur ! Tu es déjà afk");
+
+}
+
+}
+
+
+
+
+
+if (msg.content.startsWith(prefix + "afk")||msg.content === prefix + "afk") {
+
+if (afk[msg.author.id]) {
+
+return message.channel.send("Erreur ! Tu es déjà afk -_-");
+
+}else{
+
+let args1 = msg.content.split(" ").slice(1);
+
+if (args1.length === 0) {
+
+afk[msg.author.id] = {"reason" : true};
+
+msg.delete();
+
+msg.channel.send(`tu es désormais afk, met **${prefix}remafk** pour enlever ton afk`).then(x => DeleteQueue.add(x, 10000));
+
+}else{
+
+afk[msg.author.id] = {"reason" : args1.join(" ")};
+
+msg.delete();
+
+msg.channel.send(`tu es désormais afk, met **${prefix}remafk** pour enlever ton afk`).then(x => DeleteQueue.add(x, 10000));
+
+}
+
+fs.writeFile("./afks.json", JSON.stringify(afk), (err) => { if (err) console.error(err);});
+
+}
+
+}
+
+    
+
+    var mentionned = message.mentions.users.first();
+
+if(msg.mentions.users.size > 0) {
+
+if (afk[msg.mentions.users.first().id]) {
+
+if (afk[msg.mentions.users.first().id].reason === true) {
+
+message.channel.send(`@${mentionned.username} is AFK: pas de raison`);
+
+}else{
+
+message.channel.send(`@${mentionned.username} is AFK: ${afk[msg.mentions.users.first().id].reason}`);
+
+}
+
+}
+
+}
+
+
+
  
     }); 
     
