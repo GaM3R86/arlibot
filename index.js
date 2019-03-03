@@ -1,9 +1,11 @@
+import { MessageEmbedImage } from 'discord.js';
 
 
 const Discord = require('discord.js');
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
+const help = require('help.js');
 const adapter = new FileSync('database.json');
 const db = low(adapter);
 db.defaults({ histoires: [], xp: []})
@@ -19,21 +21,21 @@ var storynumber = db.set('histoires').map('story_value').value();  //avatar
 
 bot.on('ready', () => {
     bot.user.setPresence({ game: { name: ',help | En dévloppement', type: 3}});
-    console.log("le bot a démarrer !");
+    console.log("bot ok");
 });
 
-bot.login(process.env.TOKEN);
+bot.login('NDQwNzg5NzM1NDI2NzUyNTE0.Dcr1rw.2-Ai9Z9C7c1f7krw1DwL-6YTyb4');
 
-bot.on("guildMemberAdd", member => {
-    let role = member.guild.roles.find("name", "Joueur");
-    member.guild.channels.find("name", "bienvenue-au-revoir").send(`${member} vien de rejoindre notre famille !`)
-    member.addRole(role)
+//bot.on("guildMemberAdd", member => {
+   // let role = member.guild.roles.find("name", "Joueur");
+   // member.guild.channels.find("name", "bienvenue-au-revoir").send(`${member} vien de rejoindre notre famille !`)
+   // member.addRole(role)
 
-})
+//})
 
-bot.on("guildMemberRemove", member =>{
-    member.guild.channels.find("name", "bienvenue-au-revoir").send(`${member} a quitté fesons la prière :sob:`)
-})
+////bot.on("guildMemberRemove", member =>{
+   // member.guild.channels.find("name", "bienvenue-au-revoir").send(`${member} a quitté fesons la prière :sob:`)
+//})
 
 
 bot.on('message', message => {
@@ -74,11 +76,12 @@ bot.on('message', message => {
 
 
 
-    if (message.content === ",isdb"){
-        message.reply("Voici le discord du bot: https://discord.gg/dnfEZvN");
-     console.log('invite serveur ArliCraft');
+    //if (message.content === ",isdb"){
+        //message.reply("Voici le discord du bot: https://discord.gg/dnfEZvN");
+    // console.log('invite serveur ArliCraft');
 
-    }
+   // }
+
 
 
     if (message.content.startsWith(prefix + "botinfo")) {
@@ -99,9 +102,9 @@ bot.on('message', message => {
                         value: bot.users.size,
                         inline: true
     }, {
-        name: '**Nombre de serveurs**',
-        value: bot.guilds.size,
-        inline: true
+                        name: '**Nombre de serveurs**',
+                        value: bot.guilds.size,
+                        inline: true
                    }],
                 thumbnail: {
                     url: message.author.iconURL //l'avatar du bot //avatar
@@ -281,7 +284,9 @@ bot.on('message', message => {
                     "Pas du tout",
                     "Peux-être",
                     "Absolument",
-                    "Sa dépend des circanstance"
+                    "Sa dépend des circanstance",
+                    "bien sur que oui",
+                    "et puis quoi encore !"
                 ];
 
                 let reponse = (replys[Math.floor(Math.random() * replys.length)])
@@ -308,7 +313,7 @@ bot.on('message', message => {
             },
             title: 'Commande du bot',
             description: '**,help**: Affiche la list des commande \n\n **,ping**: vous répond pong \n\n **,issou**: Affiche entre 14 image de issou \n \n **,xplevel**: Affiche votre niveaux dans le channel ou la commande est effectuer \n\n **,invite**: pour inviter le bot \n\n **,isdb**: Pour rejoindre le discord du bot ( veux dire: invite serveur du bot) \n\n **,stats**: Vous envoie un message en privé avec votre niveau \n \n **,ban {@user}**: ban l\'utilisateur \n \n **,kick {@user}**: kick l\'utilisateur \n \n **,avatar {@user}** vous donne l\'avatar de la personne \n \n **,serveurinfo**: vous donne des infos sur le serveur \n \n **,botinfo**: Vous donne des info sur le serveur ou vous l\'effectuer',
-            fields: [
+            fields: [ 
                 {
                     name: 'version 1.1.0',
                     value: 'fasse pas du tout finit'
@@ -529,6 +534,7 @@ message.channel.send(`@${mentionned.username} is AFK: ${afk[msg.mentions.users.f
 }
 
 }
+
 
 
 
